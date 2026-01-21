@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Bejegyzes;
+use Laravel\Pail\Options;
 
 class BejegyzesController extends Controller
 {
@@ -11,7 +13,10 @@ class BejegyzesController extends Controller
      */
     public function index()
     {
-        //
+        $bejegyzesek = Bejegyzes::all();
+        return response()->json([
+            "data" => $bejegyzesek,
+        ],200, options:JSON_UNESCAPED_UNICODE);  
     }
 
     /**
@@ -37,6 +42,14 @@ class BejegyzesController extends Controller
         "ismetlesszam"=>"ismétlésszám",
         "datum"=>"dátum" 
         ]);
+
+        Bejegyzes::create([
+            "gyakorlat" => $request->gyakorlat,
+            "ismetlesszam" => $request->ismetlesszam,
+            "datum" => $request->datum
+        ]);
+
+        return response()->json("Adat rögzítve", 201, options:JSON_UNESCAPED_UNICODE);
     }
 
     /**
